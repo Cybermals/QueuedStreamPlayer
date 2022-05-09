@@ -3,12 +3,12 @@ extends Node
 export (bool) var loop = false
 export (float) var volume = 1.0 setget set_volume
 var queue = []
-var stream_player = StreamPlayer.new()
+var stream_player = AudioStreamPlayer.new()
 
 
 func _ready():
 	#Create stream player, set initial volume, and enable event processing
-	stream_player.set_name("StreamPlayer")
+	stream_player.set_name("AudioStreamPlayer")
 	add_child(stream_player)
 	set_process(true)
 	
@@ -16,7 +16,7 @@ func _ready():
 func _process(delta):
 	#Check if there is music playing
 	if (stream_player.is_playing() or
-	    queue.size() == 0):
+		queue.size() == 0):
 		return
 		
 	#Retrieve next song from the queue and start it
@@ -49,4 +49,5 @@ func set_loop(do_loop):
 	
 func set_volume(volume):
 	#Set the volume of the underlying stream player
-	stream_player.set_volume(volume)
+	stream_player.volume_db = volume
+
